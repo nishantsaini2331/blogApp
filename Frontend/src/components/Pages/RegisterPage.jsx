@@ -3,6 +3,7 @@ import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast,Toaster } from "react-hot-toast";
 import UserContext from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 
 const RegisterPage = () => {
@@ -64,6 +65,7 @@ const RegisterPage = () => {
             >
             Login
             </button>
+            <p className="text-xl">Already have an account? <Link to={'/login'} className="text-blue-700   ">Login</Link> </p>
             <Toaster/>
         </form>
     </>

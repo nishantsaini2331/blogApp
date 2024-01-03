@@ -243,16 +243,74 @@ app.get("/post", async (req, res) => {
 
 app.get("/post/:id", async (req, res) => {
     try {
+        
+
         const post = await Post.findById(req.params.id).populate(
-        "author",
-        "userName"
-        );
-        res.status(200).json(post);
+            "author",
+            "userName"
+            );
+            res.status(200).json(post);
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
     }
 );
+
+app.delete("/post/:id", async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        if(!payload){
+            return res.status(400).json({error: "Please Login First"})
+        }
+
+        const post = await Post.findById(req.params.id);
+        
+        const user = await User.findById(payload.id);
+        const checkUser = JSON.stringify(post.author._id)  === JSON.stringify(user._id);
+
+        if(!checkUser){
+            return res.status(400).json({error: "You are not allowed to delete this post"})
+        }
+        await Post.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: "Post Deleted Successfully" });
+
+    
+    } catch (error) {
+        res.status(500).json({  message: "You are not admin of this post" });
+    }
+    }
+);
+
+
+app.get("/verify/:id", async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        if(!payload){
+            return res.status(400).json({error: "Please Login First"})
+        }
+
+        const post = await Post.findById(req.params.id);
+        
+        const user = await User.findById(payload.id);
+        const checkUser = JSON.stringify(post.author._id)  === JSON.stringify(user._id);
+
+        if(!checkUser){
+            return res.status(400).json({error: "You are not allowed to edit this post"})
+        }
+        res.status(200).json({ message: "You are admin of this post" });
+
+    
+    } catch (error) {
+        res.status(500).json({  message: "You are not admin of this post" });
+    }
+    }
+);
+
+
+
 
 
 

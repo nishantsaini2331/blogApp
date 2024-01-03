@@ -24,7 +24,7 @@ const Quill = ({value, onChange}) => {
   return (
     <ReactQuill 
     value={value}
-    onChange={onchange}
+    onChange={onChange}
     modules={modules}
     formats={formats}
     theme="snow"

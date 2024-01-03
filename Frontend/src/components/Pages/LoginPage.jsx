@@ -1,37 +1,38 @@
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast,Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import UserContext from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-    const {setUserInfo, userInfo} = useContext(UserContext);
-    const navigate = useNavigate();
+  const { setUserInfo, userInfo } = useContext(UserContext);
+  const navigate = useNavigate();
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const login =  async (e) => {
+  const login = async (e) => {
     e.preventDefault();
 
     const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify({
-            userName,
-            password,
-        }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-        })
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        userName,
+        password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (res.status === 200) {
-            toast.success("Login Success");
-            const data = await res.json();
-            setUserInfo(data);
-            navigate("/");
-        } else {
-            toast.error("Invalid Credentials");
-        } 
+    if (res.status === 200) {
+      toast.success("Login Success");
+      const data = await res.json();
+      setUserInfo(data);
+      navigate("/");
+    } else {
+      toast.error("Invalid Credentials");
+    }
   };
 
   return (
@@ -42,15 +43,15 @@ const LoginPage = () => {
         className="flex justify-center flex-col items-center  gap-4   "
       >
         <input
-        value={userName}
-        onChange={(e) => setUsername(e.target.value)}
+          value={userName}
+          onChange={(e) => setUsername(e.target.value)}
           type="text "
           className="border-2  px-5 py-3 w-[50%] bg-[#eee] text-2xl rounded-xl"
           placeholder="username"
         />
         <input
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
           className="border-2  px-5 py-3 w-[50%] bg-[#eee] text-2xl rounded-xl"
           placeholder="password"
@@ -61,7 +62,8 @@ const LoginPage = () => {
         >
           Login
         </button>
-        <Toaster/>
+        <p className="text-xl">New User? <Link to={'/register'} className="text-blue-700   ">Create an account</Link> </p>
+        <Toaster />
       </form>
     </>
   );

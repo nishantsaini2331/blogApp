@@ -14,6 +14,7 @@ const IndexPage = () => {
             })
             const data = await res.json();
             setPosts(data);
+            console.log(data)
             
         }
         getPosts();

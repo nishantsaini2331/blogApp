@@ -38,27 +38,30 @@ const Header =  () => {
       <Link to="/" className="font-bold text-5xl ">
         Blog Thread
       </Link>
-      <nav className="flex gap-4 text-xl">
+      <nav className="flex  text-xl gap-5 justify-end items-center">
       {userName && (
         <>
-            <Link to="/create" className="font-semibold  text-xl ">
-            Create Post
+            <Link to="/create" className="font-semibold bg-blue-300 p-2 rounded-md   text-xl ">
+                Create Post
             </Link>
-            <Link to="/" className="font-semibold  text-xl" 
-            onClick={logout}>
-            Logout
+            <Link to="/" className="font-semibold bg-blue-300 p-2 rounded-md  text-xl" 
+                onClick={logout}>
+                Logout
             </Link>
+
+            <Link  className="font-semibold bg-blue-300 p-2 rounded-md  text-xl" >{userName}</Link>
         </>
       )}
       
       {!userName && (
         <>
-            <Link to="/login" className="font-semibold  text-xl ">
+            <Link to="/login" className="font-semibold bg-blue-300 p-2 rounded-md  text-xl ">
               Login
             </Link>
-            <Link to="/register" className="font-semibold  text-xl ">
+            <Link to="/register" className="font-semibold bg-blue-300 p-2 rounded-md  text-xl ">
              Register
             </Link>
+            
         </>
       )}
         

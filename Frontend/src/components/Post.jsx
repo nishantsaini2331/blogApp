@@ -22,7 +22,7 @@ const Post = ( {title,subDescription, _id , createdAt, author, image, content} )
       <div className="max-w-full">
       <Link to={`/post/${_id}`} >
              <img
-                className="max-w-full"
+                className="max-w-full rounded-md"
                 src={`${image}`}
                 alt=""
             />

@@ -25,7 +25,7 @@ const EditPost = () => {
             setTitle(data.title);
             setSubDescription(data.subDescription);
             setContent(data.content);
-            console.log(data);
+
         
         }
         getPost();
@@ -50,6 +50,7 @@ const EditPost = () => {
         });
 
         const data = await res.json();
+        console.log(data);
         if(res.status === 400 || !data){
             toast.error(data.message);
         }
@@ -95,7 +96,7 @@ const EditPost = () => {
               type="submit"
               className="border-2  px-5 py-3 w-full bg-blue-500  text-2xl  rounded-xl"
             >
-              Edit Post
+                Update Post
             </button>
             <Toaster/>
           </form>
