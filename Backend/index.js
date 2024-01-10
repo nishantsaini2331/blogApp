@@ -311,9 +311,6 @@ app.get("/verify/:id", async (req, res) => {
 
 
 
-
-
-
 app.listen(PORT, () => {
   cloudinaryConnection();
   connectDb();

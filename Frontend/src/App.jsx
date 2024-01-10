@@ -14,6 +14,8 @@ import CreatePost from "./components/Pages/CreatePost";
 import PostPage from "./components/Pages/PostPage";
 import EditPost from "./components/Pages/EditPost";
 import PublicBlog from "./components/Pages/PublicBlog";
+import PrivateBlog from "./components/Pages/PrivateBlog";
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,8 +30,8 @@ function App() {
             <Route path="/create" element={<CreatePost/>}/>
             <Route path="/post/:id" element={<PostPage/>}/>
             <Route path="/edit/:id" element={<EditPost/>}/>
-            <Route path='/public' element={<PublicBlog/>}/>
-            <Route path='/private' element={<h1>Privateh</h1>}/>
+            <Route path='/' element={<PublicBlog/>}/>
+            <Route path='/private/:id' element={<PrivateBlog/>}/>
         </Route>
 
       </Routes>

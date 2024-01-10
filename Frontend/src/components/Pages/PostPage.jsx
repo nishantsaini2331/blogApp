@@ -9,12 +9,10 @@ const PostPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
 
-  
-
-
-
   const [postInfo, setPostInfo] = useState({}); //[ {title,subDescription, _id , createdAt, author, image, content}
+  
   const params = useParams();
+  
   useEffect(() => {
     const getPost = async () => {
       const res = await fetch(`http://localhost:3000/post/${params.id}`, {
