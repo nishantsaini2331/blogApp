@@ -172,60 +172,58 @@ app.post("/add-post", upload.single("image"), async (req, res) => {
 });
 
 app.put("/add-post", upload.single("image"), async (req, res) => {
-    try {
+  try {
+    let newPath = null;
 
-        let newPath = null;
+    if (req.file) {
+      const { originalname, filename } = req.file;
 
-        if(req.file){
-            const { originalname, filename } = req.file;
+      const parts = originalname.split(".");
+      const extension = parts[parts.length - 1];
+      const oldPath = `uploads/${filename}`;
+      newPath = `uploads/${filename}.${extension}`;
+      fs.renameSync(oldPath, newPath);
 
-            const parts = originalname.split(".");
-            const extension = parts[parts.length - 1];
-            const oldPath = `uploads/${filename}`;
-             newPath = `uploads/${filename}.${extension}`;
-            fs.renameSync(oldPath, newPath);
-
-            const result = await clodinary.uploader.upload(newPath, {
-            folder: "blog",
-            use_filename: true,
-            unique_filename: false,
-            });
-            fs.unlinkSync(newPath);
-            const url = result.secure_url;
-            req.body.image = url;
-        }
-        const token = req.cookies.token;
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        if(!payload){
-            return res.status(400).json({error: "Please Login First"})
-        }
-
-        let post = await Post.findById(req.body.id);
-        
-        const user = await User.findById(payload.id);
-        const checkUser = JSON.stringify(post.author._id)  === JSON.stringify(user._id);
-
-        if(!checkUser){
-            return res.status(400).json({error: "You are not allowed to edit this post"})
-        }
-        const { title, subDescription, content, image } = req.body;
-
-          post = await Post.findByIdAndUpdate(req.body.id, {
-            title,
-            subDescription,
-            content,
-            image,
-        }); 
-        res.status(200).json({ message: "Post Updated Successfully" });
-
-    
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: error.message });
+      const result = await clodinary.uploader.upload(newPath, {
+        folder: "blog",
+        use_filename: true,
+        unique_filename: false,
+      });
+      fs.unlinkSync(newPath);
+      const url = result.secure_url;
+      req.body.image = url;
     }
+    const token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    if (!payload) {
+      return res.status(400).json({ error: "Please Login First" });
     }
-);
 
+    let post = await Post.findById(req.body.id);
+
+    const user = await User.findById(payload.id);
+    const checkUser =
+      JSON.stringify(post.author._id) === JSON.stringify(user._id);
+
+    if (!checkUser) {
+      return res
+        .status(400)
+        .json({ error: "You are not allowed to edit this post" });
+    }
+    const { title, subDescription, content, image } = req.body;
+
+    post = await Post.findByIdAndUpdate(req.body.id, {
+      title,
+      subDescription,
+      content,
+      image,
+    });
+    res.status(200).json({ message: "Post Updated Successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.get("/post", async (req, res) => {
   try {
@@ -242,74 +240,67 @@ app.get("/post", async (req, res) => {
 });
 
 app.get("/post/:id", async (req, res) => {
-    try {
-        
-
-        const post = await Post.findById(req.params.id).populate(
-            "author",
-            "userName"
-            );
-            res.status(200).json(post);
-
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-    }
-);
+  try {
+    const post = await Post.findById(req.params.id).populate(
+      "author",
+      "userName"
+    );
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.delete("/post/:id", async (req, res) => {
-    try {
-        const token = req.cookies.token;
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        if(!payload){
-            return res.status(400).json({error: "Please Login First"})
-        }
-
-        const post = await Post.findById(req.params.id);
-        
-        const user = await User.findById(payload.id);
-        const checkUser = JSON.stringify(post.author._id)  === JSON.stringify(user._id);
-
-        if(!checkUser){
-            return res.status(400).json({error: "You are not allowed to delete this post"})
-        }
-        await Post.findByIdAndDelete(req.params.id);
-        res.status(200).json({ message: "Post Deleted Successfully" });
-
-    
-    } catch (error) {
-        res.status(500).json({  message: "You are not admin of this post" });
+  try {
+    const token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    if (!payload) {
+      return res.status(400).json({ error: "Please Login First" });
     }
-    }
-);
 
+    const post = await Post.findById(req.params.id);
+
+    const user = await User.findById(payload.id);
+    const checkUser =
+      JSON.stringify(post.author._id) === JSON.stringify(user._id);
+
+    if (!checkUser) {
+      return res
+        .status(400)
+        .json({ error: "You are not allowed to delete this post" });
+    }
+    await Post.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Post Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "You are not admin of this post" });
+  }
+});
 
 app.get("/verify/:id", async (req, res) => {
-    try {
-        const token = req.cookies.token;
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        if(!payload){
-            return res.status(400).json({error: "Please Login First"})
-        }
-
-        const post = await Post.findById(req.params.id);
-        
-        const user = await User.findById(payload.id);
-        const checkUser = JSON.stringify(post.author._id)  === JSON.stringify(user._id);
-
-        if(!checkUser){
-            return res.status(400).json({error: "You are not allowed to edit this post"})
-        }
-        res.status(200).json({ message: "You are admin of this post" });
-
-    
-    } catch (error) {
-        res.status(500).json({  message: "You are not admin of this post" });
+  try {
+    const token = req.cookies.token;
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    if (!payload) {
+      return res.status(400).json({ error: "Please Login First" });
     }
+
+    const post = await Post.findById(req.params.id);
+
+    const user = await User.findById(payload.id);
+    const checkUser =
+      JSON.stringify(post.author._id) === JSON.stringify(user._id);
+
+    if (!checkUser) {
+      return res
+        .status(400)
+        .json({ error: "You are not allowed to edit this post" });
     }
-);
-
-
+    res.status(200).json({ message: "You are admin of this post" });
+  } catch (error) {
+    res.status(500).json({ message: "You are not admin of this post" });
+  }
+});
 
 app.listen(PORT, () => {
   cloudinaryConnection();

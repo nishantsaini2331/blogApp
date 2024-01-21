@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { AiTwotoneLike, AiTwotoneDislike   } from "react-icons/ai";
 
 const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
   const date = new Date(createdAt);
@@ -30,6 +31,10 @@ const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
           </p>
         </p>
         <p className="text-lg mt-2 ">{subDescription}</p>
+        <div className="flex items-center gap-7 mt-3     ">
+            <p className="scale-[2] ">{<AiTwotoneLike />}</p>
+            <p className="scale-[2] ">{<AiTwotoneDislike />}</p>
+        </div>
       </div>
     </div>
   );

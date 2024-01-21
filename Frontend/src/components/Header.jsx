@@ -2,12 +2,18 @@ import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
+
+
+
 const Header =  () => {
+
+    // const url = import.meta.env.VITE_BACKEND_URL
+    // console.log(url)
     
     const {setUserInfo, userInfo} = useContext(UserContext);
 
     useEffect(() => {
-    const res =  fetch("http://localhost:3000/profile", {
+    const res =  fetch(`http://localhost:3000/profile`, {
             method: "GET",
             credentials: "include",
         }
