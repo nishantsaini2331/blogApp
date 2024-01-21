@@ -9,11 +9,12 @@ const Header =  () => {
 
     // const url = import.meta.env.VITE_BACKEND_URL
     // console.log(url)
+    const url = import.meta.env.VITE_BACKEND
     
     const {setUserInfo, userInfo} = useContext(UserContext);
 
     useEffect(() => {
-    const res =  fetch(`http://localhost:3000/profile`, {
+    const res =  fetch(`${url}/profile`, {
             method: "GET",
             credentials: "include",
         }
@@ -26,7 +27,7 @@ const Header =  () => {
     , []);
 
     const logout =  () => {
-        fetch("http://localhost:3000/logout", {
+        fetch(`${url}/logout`, {
             method: "GET",
             credentials: "include",
         }

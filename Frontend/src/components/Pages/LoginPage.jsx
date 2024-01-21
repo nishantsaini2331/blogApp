@@ -12,8 +12,9 @@ const LoginPage = () => {
 
   const login = async (e) => {
     e.preventDefault();
+    const url = import.meta.env.VITE_BACKEND;
 
-    const res = await fetch("http://localhost:3000/login", {
+    const res = await fetch(`${url}/login`, {
       method: "POST",
       credentials: "include",
       body: JSON.stringify({

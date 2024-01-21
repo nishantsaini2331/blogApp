@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 const EditPost = () => {
-
+    const url = import.meta.env.VITE_BACKEND
     const [title, setTitle] = useState("");
     const [subDescription, setSubDescription] = useState("");
     const [image, setImage] = useState("");
@@ -17,7 +17,7 @@ const EditPost = () => {
 
     useEffect(() => {
         const getPost = async () => {
-            const res = await fetch(`http://localhost:3000/post/${params.id}`, {
+            const res = await fetch(`${url}/post/${params.id}`, {
                 method: "GET",
                 credentials: "include",
             })
@@ -43,14 +43,14 @@ const EditPost = () => {
             formData.append("image", image?.[0]);
         }
 
-        const res = await fetch(`http://localhost:3000/add-post`, {
+        const res = await fetch(`${url}/add-post`, {
             method: "PUT",
             body: formData,
             credentials: "include",
         });
 
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         if(res.status === 400 || !data){
             toast.error(data.message);
         }

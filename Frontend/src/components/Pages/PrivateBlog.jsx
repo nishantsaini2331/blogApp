@@ -5,7 +5,7 @@ import {useParams } from 'react-router-dom'
 
 const PrivateBlog = () => {
     const param = useParams()
-    console.log("param",param)
+    // console.log("param",param)
   return (
     <div>PrivateBlog</div>
   )

@@ -11,11 +11,12 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const url = import.meta.env.VITE_BACKEND;
 
     const register =  async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/register", {
+        const res = await fetch(`${url}/register`, {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({

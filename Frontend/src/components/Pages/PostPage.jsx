@@ -12,10 +12,11 @@ const PostPage = () => {
   const [postInfo, setPostInfo] = useState({}); //[ {title,subDescription, _id , createdAt, author, image, content}
   
   const params = useParams();
+  const url = import.meta.env.VITE_BACKEND;
   
   useEffect(() => {
     const getPost = async () => {
-      const res = await fetch(`http://localhost:3000/post/${params.id}`, {
+      const res = await fetch(`${url}/post/${params.id}`, {
         method: "GET",
         credentials: "include",
       });
@@ -29,7 +30,7 @@ const PostPage = () => {
   }, []);
 
   const deletePost = async () => {
-    const res = await fetch(`http://localhost:3000/post/${params.id}`, {
+    const res = await fetch(`${url}/post/${params.id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -39,7 +40,7 @@ const PostPage = () => {
     // }
 
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     if (res.status === 200) {
       toast.success(data);
       navigate(`/`);
@@ -52,7 +53,7 @@ const PostPage = () => {
 
 
   const verify = async () => {
-    const res = await fetch(`http://localhost:3000/verify/${params.id}`, {
+    const res = await fetch(`${url}/verify/${params.id}`, {
       method: "GET",
       credentials: "include",
     });

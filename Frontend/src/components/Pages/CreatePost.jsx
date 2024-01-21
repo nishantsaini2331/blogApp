@@ -6,6 +6,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 const CreatePost = () => {
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BACKEND
 
   const [title, setTitle] = useState("");
   const [subDescription, setSubDescription] = useState("");
@@ -24,7 +25,7 @@ const CreatePost = () => {
 
     setLoading(true);
 
-    const res = await fetch("http://localhost:3000/add-post", {
+    const res = await fetch(`${url}/add-post`, {
       method: "POST",
       body: formData,
       credentials: "include",
