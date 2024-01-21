@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { AiTwotoneLike, AiTwotoneDislike   } from "react-icons/ai";
 
@@ -8,10 +8,21 @@ const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const time = date.toLocaleTimeString();
-
   const dateStr = `${day}/${month}/${year}`;
-
   const authorName = author?.userName;
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
+
+    const like = () => {
+        console.log("Like")
+        setLikeCount(likeCount + 1)
+
+    }
+    const dislike = () => {
+        console.log("dislike")
+        setDislikeCount(dislikeCount + 1)
+    }
+
 
   return (
     <div className="grid grid-cols-1 w-full mb-10 gap-5 sm:grid-cols-2  ">
@@ -31,9 +42,19 @@ const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
           </p>
         </p>
         <p className="text-lg mt-2 ">{subDescription}</p>
-        <div className="flex items-center gap-7 mt-3     ">
-            <p className="scale-[2] ">{<AiTwotoneLike />}</p>
-            <p className="scale-[2] ">{<AiTwotoneDislike />}</p>
+        <div className="flex items-center gap-10 mt-3     ">
+            {
+                likeCount === 0 ? 
+                <p onClick={like }className="scale-[2] flex items-center gap-1">{< AiTwotoneLike />} </p> : 
+                <p onClick={like }className="scale-[2] flex items-center gap-1">{< AiTwotoneLike />} {likeCount}</p>
+            }
+            {
+                dislikeCount === 0 ? 
+                <p onClick={dislike }className="scale-[2] flex items-center gap-1">{< AiTwotoneDislike />} </p> : 
+                <p onClick={dislike }className="scale-[2] flex items-center gap-1">{< AiTwotoneDislike />} {dislikeCount}</p>
+            }
+            {/* <p onClick={like }className="scale-[2] flex items-center gap-1">{< AiTwotoneLike />} {likeCount === 0 ? } </p>
+            <p onClick={dislike} className="scale-[2] flex items-center gap-1">{<AiTwotoneDislike/>} {dislikeCount}</p> */}
         </div>
       </div>
     </div>
