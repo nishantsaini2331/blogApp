@@ -14,9 +14,7 @@ const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
   const [dislikeCount, setDislikeCount] = useState(0);
 
     const like = () => {
-        console.log("Like")
-        setLikeCount(likeCount + 1)
-
+        
     }
     const dislike = () => {
         console.log("dislike")
@@ -53,8 +51,6 @@ const Post = ({ title, subDescription, _id, createdAt, author, image }) => {
                 <p onClick={dislike }className="scale-[2] flex items-center gap-1">{< AiTwotoneDislike />} </p> : 
                 <p onClick={dislike }className="scale-[2] flex items-center gap-1">{< AiTwotoneDislike />} {dislikeCount}</p>
             }
-            {/* <p onClick={like }className="scale-[2] flex items-center gap-1">{< AiTwotoneLike />} {likeCount === 0 ? } </p>
-            <p onClick={dislike} className="scale-[2] flex items-center gap-1">{<AiTwotoneDislike/>} {dislikeCount}</p> */}
         </div>
       </div>
     </div>

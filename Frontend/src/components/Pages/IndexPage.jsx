@@ -7,6 +7,8 @@ const IndexPage = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        
+
         const getPosts = async () => {
             const res = await fetch(`${url}/post`, {
                 method: "GET",

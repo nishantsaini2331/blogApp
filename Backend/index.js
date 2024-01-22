@@ -29,7 +29,7 @@ const cloudinaryConnection = (req, res, next) => {
       api_secret: process.env.API_SECRET,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: error.message,
     });
@@ -44,7 +44,7 @@ const connectDb = () => {
     });
     console.log("database connected");
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -95,7 +95,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { userName, password } = req.body;
-  console.log(userName, password);
+//   console.log(userName, password);
   const checkUser = await User.findOne({ userName });
   if (!checkUser) {
     return res.status(400).json({ error: "Invalid Credentials" });
@@ -166,7 +166,7 @@ app.post("/add-post", upload.single("image"), async (req, res) => {
       .status(200)
       .json({ message: "Post Created Successfully", id: post._id });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -220,7 +220,7 @@ app.put("/add-post", upload.single("image"), async (req, res) => {
     });
     res.status(200).json({ message: "Post Updated Successfully" });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
